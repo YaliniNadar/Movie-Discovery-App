@@ -104,7 +104,7 @@ def logout():
     return redirect(url_for("login"))
 
 # route for serving React page
-@bp.route("/")
+@app.route("/")
 @login_required
 def index():
     """Driver Code"""
@@ -131,7 +131,6 @@ def index():
         reviews=reviews,
         trailer=trailer,
         )
-app.register_blueprint(bp)
 
 
 @bp.route('/hello')
@@ -139,10 +138,11 @@ def say_hello_world():
     """Testing"""
     return {'result': "Hello Worlda"}
 
-@app.route('/hi')
+@bp.route('/hi')
 def say_hi():
     """test"""
-    return render_template("main.html")
+    return render_template("index.html")
+app.register_blueprint(bp)
 
 @app.route("/actor_info", methods=["GET", "POST"])
 @login_required
