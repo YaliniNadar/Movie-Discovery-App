@@ -1,0 +1,41 @@
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Movie Explorer</title>
+</head>
+
+<body>
+   
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="/add_fav">{{current_user.username}}'s List</a>
+        <div class="dropdown">
+          <button class="dropbtn">Search 
+          </button>
+            <div class="dropdown-content">
+              <a href="/search_movie">By Movie Name</a>
+              <a href="/actor_info">By Actor Name</a>
+            </div>
+        </div>
+
+        <div class="right">
+          <!-- <a href="{{ url_for('sign_up' )}}">Sign Up</a>
+          <a href="{{ url_for('login' )}}">Login</a> -->
+          <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+
+    <div class="favlist">
+        <h2>You have saved {{favlist|length}} Movies!!</h2>
+        <br/>
+        <ul>
+            {% for f in favlist %}
+                <li>{{f.title}} 
+                <br/>
+                <img src="{{f.img}}"></li>
+                <br/>
+                <br/>
+            {% endfor %}
+          </ul>
+    </div>
+</body>
