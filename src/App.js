@@ -19,7 +19,6 @@ function App() {
   useEffect(() => {
     fetch("/load_info")
       .then((res) => res.json())
-      .then((data) => console.log(data))
       .then((data) => {
         setUsername(data.username);
         setReviews(data.reviews[0]);
@@ -31,7 +30,7 @@ function App() {
       <Navbar username={username} />
       <h1>Hi</h1>
       <p>Flask says {placeholder}</p>
-      <DisplayReviews username={username} reviews="Yooo" />
+      <DisplayReviews reviews={reviews} />
     </div>
   );
 }

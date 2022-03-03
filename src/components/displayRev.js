@@ -1,10 +1,12 @@
 import React from "react";
 
-export function DisplayReviews({ username, reviews }) {
+export function DisplayReviews({ reviews }) {
+  // console.log({ reviews });
   return (
     <div>
-      <h4>{username}</h4>
-      <h4>{reviews}</h4>
+      <h4>{reviews.movie_id}</h4>
+      <h4>{reviews.rating}</h4>
+      <h4>{reviews.comment}</h4>
     </div>
   );
 }

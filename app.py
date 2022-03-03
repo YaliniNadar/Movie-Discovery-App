@@ -88,7 +88,7 @@ class ReviewSchema(ma.Schema):
     """To Define output format for Review"""
     class Meta:
         """Format"""
-        fields = ("username", "movie_id", "comment", "rating")
+        fields = ("id", "username", "movie_id", "comment", "rating")
 
 
 db.create_all()
