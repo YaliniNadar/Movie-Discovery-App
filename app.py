@@ -4,7 +4,7 @@
 import os
 import random
 from dotenv import load_dotenv, find_dotenv
-from flask import render_template, request, redirect, url_for, flash, Flask, Blueprint
+from flask import render_template, request, redirect, url_for, flash, Flask, Blueprint, jsonify
 from flask_login import (
     LoginManager,
     login_user,
@@ -15,6 +15,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_marshmallow import Marshmallow
 from tmdb import get_actor_info, get_movie_info, get_movie_id
 from wiki import get_movie_link
 from youtube import get_trailer_link
@@ -39,6 +40,7 @@ app.config['TESTING'] = False
 
 # Initialize the database
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 
 login_manager = LoginManager()
@@ -80,6 +82,13 @@ class Favlist(db.Model):
 
     def __repr__(self):
         return f"<Favlist {self.username, self.movie_id}>"
+
+#Defining output format
+class ReviewSchema(ma.Schema):
+    """To Define output format for Review"""
+    class Meta:
+        """Format"""
+        fields = ("username", "movie_id", "comment", "rating")
 
 
 db.create_all()
@@ -142,6 +151,21 @@ def say_hello_world():
 def say_hi():
     """test"""
     return render_template("index.html")
+
+@bp.route('/load_info')
+def load_info():
+    """Sending info to react side"""
+    username = current_user.username
+    user_reviews = Review.query.filter_by(username=username).all()
+    print(user_reviews)
+    reviews_schema = ReviewSchema(many=True)
+    output = reviews_schema.dump(user_reviews) #converts to a serializeable obj
+    data = {
+        'username': username,
+        'reviews': output
+        }
+    return jsonify(data)
+
 app.register_blueprint(bp)
 
 @app.route("/actor_info", methods=["GET", "POST"])
@@ -226,7 +250,7 @@ def login():
 
             # creates cookie and session
             login_user(user)
-            return redirect(url_for("bp.index"))
+            return redirect(url_for("index"))
         flash("The username or password is incorrect")
 
     return render_template("login.html")
@@ -311,5 +335,6 @@ def add_fav():
 
     favlist = Favlist.query.filter_by(username=username).all()
     return render_template("fav_list.html", favlist=favlist)
+
 
 app.run(debug=True)
