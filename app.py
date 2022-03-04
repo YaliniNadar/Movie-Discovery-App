@@ -142,13 +142,8 @@ def index():
         )
 
 
-@bp.route('/hello')
-def say_hello_world():
-    """Testing"""
-    return {'result': "Hello Worlda"}
-
-@bp.route('/hi')
-def say_hi():
+@bp.route('/my_reviews')
+def my_reviews():
     """test"""
     return render_template("index.html")
 
