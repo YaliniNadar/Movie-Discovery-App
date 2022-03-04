@@ -153,7 +153,7 @@ def load_info():
     """Sending info to react side"""
     username = current_user.username
     user_reviews = Review.query.filter_by(username=username).all()
-    print(user_reviews)
+    # print(user_reviews)
     reviews_schema = ReviewSchema(many=True)
     output = reviews_schema.dump(user_reviews) #converts to a serializeable obj
     data = {
