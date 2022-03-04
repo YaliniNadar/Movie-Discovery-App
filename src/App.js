@@ -7,14 +7,6 @@ function App() {
   const [username, setUsername] = useState("");
   const [reviews, setReviews] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("/hello")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setPlaceholder(data.result);
-  //     });
-  // }, []);
-
   useEffect(() => {
     fetch("/load_info")
       .then((res) => res.json())

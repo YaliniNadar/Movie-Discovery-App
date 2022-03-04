@@ -64,12 +64,13 @@ class Review(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     movie_id = db.Column(db.Integer)
+    title = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(20), nullable=False)
     comment = db.Column(db.String(280))
     rating = db.Column(db.Integer)
 
     def __repr__(self):
-        return f"<Review {self.username, self.movie_id, self.rating}>"
+        return f"<Review {self.username, self.movie_id, self.rating, self.title}>"
 
 
 class Favlist(db.Model):
@@ -88,7 +89,7 @@ class ReviewSchema(ma.Schema):
     """To Define output format for Review"""
     class Meta:
         """Format"""
-        fields = ("id", "username", "movie_id", "comment", "rating")
+        fields = ("id", "username", "movie_id", "comment", "rating", "title")
 
 
 db.create_all()
@@ -279,15 +280,16 @@ def handle_form():
         user = current_user.username
         movie_id = request.form["movie_id"]
 
+        title, tag, genres_list, pic = get_movie_info(str(movie_id))
+
         review = Review(
-            movie_id=movie_id, username=user, comment=comment, rating=rating
+            movie_id=movie_id, title=title, username=user, comment=comment, rating=rating
         )
         db.session.add(review)
         db.session.commit()
 
         reviews = Review.query.filter_by(movie_id=movie_id).all()
 
-        title, tag, genres_list, pic = get_movie_info(str(movie_id))
         wiki_url = get_movie_link(title)
         trailer = get_trailer_link(title)
 
