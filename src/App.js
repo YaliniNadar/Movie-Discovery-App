@@ -21,9 +21,16 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setUsername(data.username);
-        setReviews(data.reviews[0]);
+        var reviewsCopy = data.reviews;
+        reviewsCopy.push(reviews);
+        setReviews(reviewsCopy);
+
+        // setReviews(...reviews, ...reviewsCopy);
+        console.log(data.reviews);
       });
   }, []);
+
+  console.log(reviews);
 
   return (
     <div className="App">
@@ -31,6 +38,7 @@ function App() {
       <h1>Hi</h1>
       <p>Flask says {placeholder}</p>
       <DisplayReviews reviews={reviews} />
+      {/* <h4>{reviews[0].comment}</h4> */}
     </div>
   );
 }

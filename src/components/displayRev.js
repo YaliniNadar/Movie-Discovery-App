@@ -4,9 +4,13 @@ export function DisplayReviews({ reviews }) {
   // console.log({ reviews });
   return (
     <div>
-      <h4>{reviews.movie_id}</h4>
-      <h4>{reviews.rating}</h4>
-      <h4>{reviews.comment}</h4>
+      {reviews.map((review) => (
+        <ul>
+          <li>{review.movie_id}</li>
+          <li>{review.comment}</li>
+          <li>{review.rating}</li>
+        </ul>
+      ))}
     </div>
   );
 }
