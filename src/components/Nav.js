@@ -19,7 +19,7 @@ export function Navbar({ username }) {
         </div>
 
         <div className="right">
-          <a href="/hi">My Reviews</a>
+          <a href="/my_reviews">My Reviews</a>
           <a href="/logout">Logout</a>
         </div>
       </div>

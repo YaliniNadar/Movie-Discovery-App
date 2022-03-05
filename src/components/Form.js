@@ -1,13 +1,22 @@
 /* eslint-disable react/destructuring-assignment */
+import React, { useState } from 'react';
+
 export default function Form(props) {
+  const [rating, setRating] = useState(props.rating);
+
+  function saveRating(e) {
+    setRating(e.target.value);
+  }
   return (
     <div>
       <form>
-        <input type="number" min="0" max="5" />
-        <input type="text" />
-        <input type="submit" />
-        <h1>{props.test}</h1>
+        <input type="number" min="0" max="5" defaultValue={rating} onChange={saveRating} />
+        {/* <input type="text" /> */}
+        <button type="button" onClick={saveRating}>
+          Submit
+        </button>
       </form>
+      <h1>{rating}</h1>
     </div>
   );
 }

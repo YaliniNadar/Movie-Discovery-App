@@ -13,16 +13,15 @@ export function DisplayReviews(props) {
 
   function deleteRev(id) {
     // const RevCopy = { reviews };
-    // RevCopy.map((item) => item.id).indexOf(id);
     props.setDelRev((oldArray) => [...oldArray, id]);
     props.setReviews((prev) => prev.filter((item) => item.id !== id));
   }
 
-  function handleEdit(value) {
-    setRev(value);
-    console.log(value);
+  function handleEdit(review) {
+    setRev(review.rating);
+    console.log(review.rating);
     if (!clicked) {
-      render(<Form test={value} />);
+      render(<Form rating={review.rating} />);
       setClicked(true);
     }
   }
@@ -34,7 +33,7 @@ export function DisplayReviews(props) {
           <h4>{review.title}</h4>
           <h4>Rating: {review.rating}/5</h4>
           <h5>{review.comment}</h5>
-          <button type="button" className="edit" onClick={() => handleEdit(review.id)}>
+          <button type="button" className="edit" onClick={() => handleEdit(review)}>
             Edit
           </button>
           <button

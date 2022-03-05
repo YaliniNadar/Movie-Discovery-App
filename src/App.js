@@ -27,6 +27,10 @@ function App() {
     }
   }
 
+  function onSubmit() {
+    alert('Ok now edit time');
+  }
+
   useEffect(() => {
     fetch('/load_info')
       .then((res) => res.json())
@@ -50,10 +54,16 @@ function App() {
       <Navbar username={username} />
       <DisplayReviews reviews={reviews} setDelRev={setDelReviews} setReviews={setReviews} />
       {/* <h4>{reviews[0].comment}</h4> */}
-      <button type="button" onClick={() => handleDelete({ delReviews })}>
+      <button
+        type="button"
+        onClick={() => {
+          handleDelete({ delReviews });
+          onSubmit();
+        }}
+      >
         Save Changes
       </button>
-      <h1>{delReviews} lolz</h1>
+      {/* <h1>{delReviews} lolz</h1> */}
     </div>
   );
 }

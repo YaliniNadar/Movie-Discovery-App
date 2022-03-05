@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+# Movie Discovery App Milestone 3
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a movie discovery web application
+that shows information about your favorite movies including
+links to their wikipedia page. This data is dynamically fetched
+using the TheMovieDataBase, Wikipedia, and YouTube APIs.
 
-## Available Scripts
+The app also lets the user create an account and login where they can
+save a list of favorite movies by looking up the movie title or actor name.
+User will be able to leave reviews and ratings for movies on the main page
+and will be able to see previous comments by other users.
 
-In the project directory, you can run:
+Newest addition is the ability to make changes to user's comments on the client side and then finally send the changes to the server using React.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### App Displays:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Movie Title
+- Movie Tagline
+- Movie Genres
+- Movie Poster
+- Wikipedia Link
+- YouTube Link to Movie Trailer\*
+- User's Fav Movie List\*
+- Comments and Reviews
+- Search by Movie Title\*
+- Search by Actor Name\*
+- My Reviews Page
 
-### `npm test`
+### Tech Stack:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Python
+  - flask for web framework
+  - requests for api calls
+  - SQLAlchemy for postgres db
+- HTML & CSS
+- Heroku for deployment environment
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone project from git hub
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+  git clone https://github.com/csc4350-sp22/milestone2-ynadar1.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install the following packages:
 
-### `npm run eject`
+```bash
+  pip install requests
+  pip install python-dotenv
+  pip install flask
+  pip install flask-login
+  pip install Flask-SQLAlchemy==2.1
+  pip install psycopg2-binary
+  pip install flask-marshmallow
+  pip install marshmallow-sqlalchemy
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Create a .env file to store the following as environment variables:
+   <br>TMDB_KEY from https://developers.themoviedb.org/3/getting-started/introduction <br>
+   YOUTUBE_KEY from https://developers.google.com/youtube/v3/getting-started
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  TMDB_KEY=""
+  DATABASE_URL=""
+  SECRET_KEY=""
+  YOUTUBE_KEY=""
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. open and run routes.py
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+  python3 app.py
+```
 
-## Learn More
+## Questions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1.  What are at least 3 technical issues you encountered with your project milestone? How did you fix them? 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- I didn't realize how many app routes, redirects, and html pages I would need to create an app with different funtionalities. I did research on flask blueprints to organize all the templates and routes since I found myself copying and pasting the same pieces of code in multiple locations. But I ultimately decided against using it as I felt like it would take longer to become familiar with it and restrcuture my working code.
+- Overall, I felt like this milestone was easier that the first one as we already had a working application with functioning api calls. It wasn't too hard to display that information differently in various pages. And since I had already taken Database Systems, setting up the relational models was pretty straighfoward.
 
-### Code Splitting
+2. What was the hardest part of the project for you, across all milestones? What is the most useful thing you learned, across all milestones?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- When creating the tables for the database, I was trying to get sql prompt to show me the contents of the User table, but I kept getting this error:"ERROR: syntax error at or near "user". Upon researching, I learned that the command should use quotes around the table name like `TABLE "user";` since it is a keyword.
 
-### Analyzing the Bundle Size
+- As a stretch feature, I decided to add a "Add to Favorites" button that saves a list of movies for each user and displays that list on a page. I wanted the navigation bar to have the user's name. I had to read through the [Flask-Login](https://flask-login.readthedocs.io/en/latest/#anonymous-users) documenation to find how get the current users's username. To get the current user's username, I put this on my html file `{{ current_user.username }}`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- When I was working on the "Add to Favorites" functionality, I wanted that button to work as a form that sends the movie_id to the backend to be saved into the database. So I was trying to find a way to send form values without input fields. I found this stack overflow page that helped me: <https://stackoverflow.com/questions/6612844/is-there-a-way-of-sending-form-values-without-inputs>
 
-### Making a Progressive Web App
+- While I was working on "Watch Trailer" button that takes you to the YouTube video of the movie's trailer, I learned that the YouTube API has a certain quota that restricts the number of queries you can make. It took me some time to research how to handle this since it wasn't easy to test the error. I ended up creating a try/catch block that would try taking you to the right movie trailer link, but if the limit is exhausted, then the button would take you to the YouTube homepage.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Pylint Note\*
 
-### Advanced Configuration
+For certain pylint errors (especially the errors for the database models), I handled them in my settings.json file inside my .vscode folder. So they don't show up on my end but may show up on your end when you run `pylint *.py`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Author
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [@YaliniNadar](https://github.com/YaliniNadar)
