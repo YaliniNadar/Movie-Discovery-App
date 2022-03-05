@@ -10,6 +10,19 @@ function App() {
 
   function handleDelete(list) {
     console.log(list);
+    try {
+      fetch('https://webhook.site/6b98c4b5-c0d7-4882-888c-e2f999bc488e', {
+        method: 'post',
+        mode: 'no-cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(list),
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
