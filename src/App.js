@@ -8,6 +8,10 @@ function App() {
   const [reviews, setReviews] = useState([]);
   const [delReviews, setDelReviews] = useState([]);
 
+  function handleDelete(list) {
+    console.log(list);
+  }
+
   useEffect(() => {
     fetch('/load_info')
       .then((res) => res.json())
@@ -29,8 +33,11 @@ function App() {
   return (
     <div className="App">
       <Navbar username={username} />
-      <DisplayReviews reviews={reviews} passChildData={setDelReviews} />
+      <DisplayReviews reviews={reviews} setDelRev={setDelReviews} setReviews={setReviews} />
       {/* <h4>{reviews[0].comment}</h4> */}
+      <button type="button" onClick={() => handleDelete({ delReviews })}>
+        Save Changes
+      </button>
       <h1>{delReviews} lolz</h1>
     </div>
   );

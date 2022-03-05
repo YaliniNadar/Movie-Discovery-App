@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import { render } from '@testing-library/react';
 import React, { useState } from 'react';
@@ -13,8 +14,8 @@ export function DisplayReviews(props) {
   function deleteRev(id) {
     // const RevCopy = { reviews };
     // RevCopy.map((item) => item.id).indexOf(id);
-    // eslint-disable-next-line react/destructuring-assignment
-    props.passChildData((oldArray) => [...oldArray, id]);
+    props.setDelRev((oldArray) => [...oldArray, id]);
+    props.setReviews((prev) => prev.filter((item) => item.id !== id));
   }
 
   function handleEdit(value) {
