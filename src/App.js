@@ -6,6 +6,7 @@ import { Navbar } from './components/Nav';
 function App() {
   const [username, setUsername] = useState('');
   const [reviews, setReviews] = useState([]);
+  const [delReviews, setDelReviews] = useState([]);
 
   useEffect(() => {
     fetch('/load_info')
@@ -23,12 +24,14 @@ function App() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   console.log(reviews);
+  console.log(delReviews);
 
   return (
     <div className="App">
       <Navbar username={username} />
-      <DisplayReviews reviews={reviews} />
+      <DisplayReviews reviews={reviews} passChildData={setDelReviews} />
       {/* <h4>{reviews[0].comment}</h4> */}
+      <h1>{delReviews} lolz</h1>
     </div>
   );
 }
