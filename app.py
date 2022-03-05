@@ -14,6 +14,7 @@ from flask_login import (
     UserMixin,
 )
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import delete
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_marshmallow import Marshmallow
 from tmdb import get_actor_info, get_movie_info, get_movie_id
@@ -147,6 +148,18 @@ def index():
 def my_reviews():
     """test"""
     return render_template("index.html")
+
+@bp.route("/del_rev", methods=['POST'])
+def del_rev():
+    """Deleting List of User Reviews"""
+    del_list = request.get_json(['delReviews'])
+    print(del_list['delReviews']) #list of rev id to delete
+
+    deleted = delete(Review).where(Review.id.in_(del_list['delReviews']))
+
+    db.session.execute(deleted)
+    db.session.commit()
+    return jsonify(del_list)
 
 @bp.route('/load_info')
 def load_info():

@@ -11,7 +11,7 @@ function App() {
   function handleDelete(list) {
     console.log(list);
     try {
-      fetch('https://webhook.site/6b98c4b5-c0d7-4882-888c-e2f999bc488e', {
+      fetch('/del_rev', {
         method: 'post',
         mode: 'no-cors',
         headers: {
@@ -19,7 +19,9 @@ function App() {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(list),
-      });
+      })
+        .then((response) => response.json())
+        .then(alert('Sucessfuly Saved Changes'));
     } catch (e) {
       console.log(e);
     }
