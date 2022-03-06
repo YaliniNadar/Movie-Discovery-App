@@ -7,6 +7,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [reviews, setReviews] = useState([]);
   const [delReviews, setDelReviews] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   function handleDelete(list) {
     console.log(list);
@@ -19,16 +20,29 @@ function App() {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(list),
+      }).then((response) => response.json());
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function handleRatings(ratings) {
+    console.log(ratings);
+    try {
+      fetch('/upt_rating', {
+        method: 'post',
+        mode: 'no-cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(ratings),
       })
         .then((response) => response.json())
         .then(alert('Sucessfuly Saved Changes'));
     } catch (e) {
       console.log(e);
     }
-  }
-
-  function onSubmit() {
-    alert('Ok now edit time');
   }
 
   useEffect(() => {
@@ -48,17 +62,23 @@ function App() {
 
   console.log(reviews);
   console.log(delReviews);
+  console.log(ratings);
 
   return (
     <div className="App">
       <Navbar username={username} />
-      <DisplayReviews reviews={reviews} setDelRev={setDelReviews} setReviews={setReviews} />
+      <DisplayReviews
+        reviews={reviews}
+        setDelRev={setDelReviews}
+        setReviews={setReviews}
+        setRatings={setRatings}
+      />
       {/* <h4>{reviews[0].comment}</h4> */}
       <button
         type="button"
         onClick={() => {
           handleDelete({ delReviews });
-          onSubmit();
+          handleRatings({ ratings });
         }}
       >
         Save Changes

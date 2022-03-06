@@ -14,7 +14,7 @@ from flask_login import (
     UserMixin,
 )
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import delete
+from sqlalchemy import delete, update
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_marshmallow import Marshmallow
 from tmdb import get_actor_info, get_movie_info, get_movie_id
@@ -160,6 +160,20 @@ def del_rev():
     db.session.execute(deleted)
     db.session.commit()
     return jsonify(del_list)
+
+@bp.route("/upt_rating", methods=['POST'])
+def upt_rating():
+    """Updating of User Ratings"""
+    rating_changes = request.get_json(['ratings'])
+    print(rating_changes['ratings']) #dictionary of rev id and ratings to update
+
+    for change in rating_changes['ratings']:
+        # pylint: disable=line-too-long
+        updated = update(Review).where(Review.id==change['revId']).values(rating=int(change['newRating']))
+        db.session.execute(updated)
+        db.session.commit()
+
+    return jsonify(rating_changes)
 
 @bp.route('/load_info')
 def load_info():
