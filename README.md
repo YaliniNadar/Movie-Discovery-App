@@ -34,14 +34,15 @@ Newest addition is the ability to make changes to user's comments on the client 
   - requests for api calls
   - SQLAlchemy for postgres db
 - HTML & CSS
-- Heroku for deployment environment
+- Java Script
+  - React for reactive components (My Reviews Page)
 
 ## Installation
 
 1. Clone project from git hub
 
 ```bash
-  git clone https://github.com/csc4350-sp22/milestone2-ynadar1.git
+  git clone https://github.com/csc4350-sp22/milestone3-ynadar1.git
 ```
 
 2. Install the following packages:
@@ -67,29 +68,44 @@ Newest addition is the ability to make changes to user's comments on the client 
   SECRET_KEY=""
   YOUTUBE_KEY=""
 ```
+4. Run the command below in the main directory to pull in all the node packages you need.
 
-4. open and run routes.py
+```bash
+npm ci
+```
+
+5. To run the code, first run. Remember to run this command after any change in a React file.
+
+```bash
+  npm run build
+```
+
+6. Then run app.py.
 
 ```bash
   python3 app.py
 ```
 
+
 ## Questions
 
-1.  What are at least 3 technical issues you encountered with your project milestone? How did you fix them? 
+1.  <b>What are at least 3 technical issues you encountered with your project milestone? How did you fix them? </b>
 
-- I didn't realize how many app routes, redirects, and html pages I would need to create an app with different funtionalities. I did research on flask blueprints to organize all the templates and routes since I found myself copying and pasting the same pieces of code in multiple locations. But I ultimately decided against using it as I felt like it would take longer to become familiar with it and restrcuture my working code.
-- Overall, I felt like this milestone was easier that the first one as we already had a working application with functioning api calls. It wasn't too hard to display that information differently in various pages. And since I had already taken Database Systems, setting up the relational models was pretty straighfoward.
+- The first major error I encountered was a ```TypeError: Object of type Review is not JSON serializable```. I got this when I was trying to pass my database entries from the backend to the frontend to display using React. To fix it, I followed this [YouTube video](https://youtu.be/kRNXKzfYrPU) that used Flask-Marshmallow to return JSON versions of the Flask-SQLAlchemy models.
 
-2. What was the hardest part of the project for you, across all milestones? What is the most useful thing you learned, across all milestones?
+- Another issue I was having was initializing my reviews state variable so that it holds all the review information to display on the React side. React was able to read the data.reviews array and show it on the console. But when I was using setState to pass this array to a state variable it is was not updated. I eventually I found this [article](https://dev.to/raphaelchaula/how-to-update-object-or-array-state-in-react-4cma) that suggested creating a copy array, pushing the new values to that, and then using setState.
 
-- When creating the tables for the database, I was trying to get sql prompt to show me the contents of the User table, but I kept getting this error:"ERROR: syntax error at or near "user". Upon researching, I learned that the command should use quotes around the table name like `TABLE "user";` since it is a keyword.
+- After I collected and stored the update information in React, I was having trouble sending that information back to the backend to be commited to the database. I used this helpful YouTube tutorial that used Webhook.site as a test API to visually see your data being posted. Once I knew my data was safelly being sent from React, I use the resources under <b>Project Tools: Fetch</b> in the project specs to figure out how to retrive the data from Flask.
 
-- As a stretch feature, I decided to add a "Add to Favorites" button that saves a list of movies for each user and displays that list on a page. I wanted the navigation bar to have the user's name. I had to read through the [Flask-Login](https://flask-login.readthedocs.io/en/latest/#anonymous-users) documenation to find how get the current users's username. To get the current user's username, I put this on my html file `{{ current_user.username }}`
+- Lastly, I set `contentEditable = true` for my rating and comment text areas so that users can directly modify the values. I was tracking these changes using `onInput` who's events occur  immediately after the value of an element has changed. As I was testing, I noticed that it was picking every minute change which was not ideal. After researching, I learned that `onBlur` would be the more appropriate option as its events occur when the element loses focus, after the content has been changed. ([Source](https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput))
 
-- When I was working on the "Add to Favorites" functionality, I wanted that button to work as a form that sends the movie_id to the backend to be saved into the database. So I was trying to find a way to send form values without input fields. I found this stack overflow page that helped me: <https://stackoverflow.com/questions/6612844/is-there-a-way-of-sending-form-values-without-inputs>
+2. <b>What was the hardest part of the project for you, across all milestones? What is the most useful thing you learned, across all milestones? </b>
 
-- While I was working on "Watch Trailer" button that takes you to the YouTube video of the movie's trailer, I learned that the YouTube API has a certain quota that restricts the number of queries you can make. It took me some time to research how to handle this since it wasn't easy to test the error. I ended up creating a try/catch block that would try taking you to the right movie trailer link, but if the limit is exhausted, then the button would take you to the YouTube homepage.
+- The hardest part for me was understanding and figuring out how React/Js. Since this was my first time programming in this language, it took me longer to implement things and loop up the correct syntax. I had a rough time setting up the children and parent components and keeping track of all its state variables since I didn't plan out how I will structure my program which I wish I did before I began the project. The most useful thing I learned while working on this porject is the complexity of a web application and how it manages all these these frameworks, softwares, libraries, and API so seamlessly. As a user, I never understood the intricacy of applications until now.
+
+### Extra Credit
+Created a short cut in package.json to skip running `npm run build` after every change by adding a watch command that will look for all changes in the src folder and files with extensions js and auto-create a build each time you save/make a change. 
+
 
 ### Pylint Note\*
 

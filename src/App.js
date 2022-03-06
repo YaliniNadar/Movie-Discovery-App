@@ -8,6 +8,7 @@ function App() {
   const [reviews, setReviews] = useState([]);
   const [delReviews, setDelReviews] = useState([]);
   const [ratings, setRatings] = useState([]);
+  const [comments, setComments] = useState([]);
 
   function handleDelete(list) {
     console.log(list);
@@ -37,6 +38,23 @@ function App() {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(ratings),
+      }).then((response) => response.json());
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function handleComments(comments) {
+    console.log(comments);
+    try {
+      fetch('/upt_comment', {
+        method: 'post',
+        mode: 'no-cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(comments),
       })
         .then((response) => response.json())
         .then(alert('Sucessfuly Saved Changes'));
@@ -63,6 +81,7 @@ function App() {
   console.log(reviews);
   console.log(delReviews);
   console.log(ratings);
+  console.log(comments);
 
   return (
     <div className="App">
@@ -72,18 +91,20 @@ function App() {
         setDelRev={setDelReviews}
         setReviews={setReviews}
         setRatings={setRatings}
+        setComments={setComments}
       />
       {/* <h4>{reviews[0].comment}</h4> */}
       <button
         type="button"
+        className="button1"
         onClick={() => {
           handleDelete({ delReviews });
           handleRatings({ ratings });
+          handleComments({ comments });
         }}
       >
         Save Changes
       </button>
-      {/* <h1>{delReviews} lolz</h1> */}
     </div>
   );
 }

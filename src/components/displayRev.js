@@ -29,8 +29,20 @@ export function DisplayReviews(props) {
     }
   }
 
+  function handleEdit2(newComment, revId) {
+    console.log(revId);
+    props.setComments((prevState) => [
+      ...prevState,
+      {
+        revId,
+        newComment,
+      },
+    ]);
+  }
+
   return (
     <div className="reviews">
+      <h4>Click on values to Edit</h4>
       {reviews.slice(0, -1).map((review) => (
         <div className="rev">
           <h4>{review.title}</h4>
@@ -44,10 +56,14 @@ export function DisplayReviews(props) {
             </span>
             /5
           </h4>
-          <h5>{review.comment}</h5>
-          {/* <button type="button" className="edit" onClick={() => handleEdit(review)}>
-            Edit
-          </button> */}
+          <h5>
+            <span
+              contentEditable="true"
+              onBlur={(e) => handleEdit2(e.currentTarget.textContent, review.id)}
+            >
+              {review.comment}
+            </span>
+          </h5>
           <button
             type="button"
             className="del"
@@ -61,7 +77,6 @@ export function DisplayReviews(props) {
       ))}
       <br />
       <br />
-      <h3>Try editing rating value</h3>
     </div>
   );
 }

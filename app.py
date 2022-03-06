@@ -165,7 +165,7 @@ def del_rev():
 def upt_rating():
     """Updating of User Ratings"""
     rating_changes = request.get_json(['ratings'])
-    print(rating_changes['ratings']) #dictionary of rev id and ratings to update
+    #print(rating_changes['ratings']) #dictionary of rev id and ratings to update
 
     for change in rating_changes['ratings']:
         # pylint: disable=line-too-long
@@ -174,6 +174,21 @@ def upt_rating():
         db.session.commit()
 
     return jsonify(rating_changes)
+
+@bp.route("/upt_comment", methods=['POST'])
+def upt_comment():
+    """Updating of User Comments"""
+    changed_comments = request.get_json(['comments'])
+    #print(changed_comments['comments']) #dictionary of rev id and comments to update
+
+    for change in changed_comments['comments']:
+        # pylint: disable=line-too-long
+        updated = update(Review).where(Review.id==change['revId']).values(comment=change['newComment'])
+        db.session.execute(updated)
+        db.session.commit()
+
+
+    return jsonify(changed_comments)
 
 @bp.route('/load_info')
 def load_info():
