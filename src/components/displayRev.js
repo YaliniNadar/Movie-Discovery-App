@@ -45,6 +45,14 @@ export function DisplayReviews(props) {
       <h4>Click on values to Edit</h4>
       {reviews.slice(0, -1).map((review) => (
         <div className="rev">
+          <button
+            type="button"
+            className="del"
+            onClick={() => deleteRev(review.id)}
+            style={{ background: 'red', float: 'right' }}
+          >
+            X
+          </button>
           <h4>{review.title}</h4>
           <h4>
             Rating:
@@ -64,15 +72,7 @@ export function DisplayReviews(props) {
               {review.comment}
             </span>
           </h5>
-          <button
-            type="button"
-            className="del"
-            onClick={() => deleteRev(review.id)}
-            style={{ background: 'red' }}
-          >
-            X
-          </button>
-          <br />
+          {/* <br /> */}
         </div>
       ))}
       <br />
