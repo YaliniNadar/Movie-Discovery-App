@@ -10,6 +10,8 @@ export function DisplayReviews(props) {
   const { reviews } = props;
   const [rev, setRev] = useState('');
   const [clicked, setClicked] = useState(false);
+  const [editMode, setEdit] = useState(false);
+  const [ratings, setRatings] = useState([]);
 
   function deleteRev(id) {
     // const RevCopy = { reviews };
@@ -26,12 +28,35 @@ export function DisplayReviews(props) {
     }
   }
 
+  function handleEdit2(newRating, revId) {
+    const valid = ['1', '2', '3', '4', '5'];
+    if (valid.includes(newRating)) {
+      console.log(revId);
+      setRatings((prevState) => [
+        ...prevState,
+        {
+          revId,
+          newRating,
+        },
+      ]);
+    }
+  }
+  console.log(ratings);
   return (
     <div className="reviews">
       {reviews.slice(0, -1).map((review) => (
         <div className="rev">
           <h4>{review.title}</h4>
-          <h4>Rating: {review.rating}/5</h4>
+          <h4>
+            Rating:
+            <span
+              contentEditable="true"
+              onInput={(e) => handleEdit2(e.currentTarget.textContent, review.id)}
+            >
+              {review.rating}
+            </span>
+            /5
+          </h4>
           <h5>{review.comment}</h5>
           <button type="button" className="edit" onClick={() => handleEdit(review)}>
             Edit

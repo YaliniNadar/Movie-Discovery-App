@@ -10,7 +10,7 @@ export default function Form(props) {
   return (
     <div>
       <form>
-        <input type="number" min="0" max="5" defaultValue={rating} onChange={saveRating} />
+        <input type="number" min="1" max="5" defaultValue={rating} onChange={saveRating} />
         {/* <input type="text" /> */}
         <button type="button" onClick={saveRating}>
           Submit
