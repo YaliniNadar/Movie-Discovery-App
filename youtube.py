@@ -20,13 +20,13 @@ def get_trailer_link(title):
         "q": title + " Trailer",
     }
 
-    # try:
-    #     response = requests.get(BASE_URL, params=params)
-    #     info = response.json()
-    #     video_id = info["items"][0]["id"]["videoId"]
-    #     v_link = VID_URL + video_id
-    # except:  # pylint: disable=bare-except
-    #     v_link = "https://www.youtube.com/"
-    v_link = "https://www.youtube.com/"
+    try:
+        response = requests.get(BASE_URL, params=params)
+        info = response.json()
+        video_id = info["items"][0]["id"]["videoId"]
+        v_link = VID_URL + video_id
+    except:  # pylint: disable=bare-except
+        v_link = "https://www.youtube.com/"
+    # v_link = "https://www.youtube.com/"
 
     return v_link

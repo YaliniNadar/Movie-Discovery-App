@@ -4,7 +4,16 @@
 import os
 import random
 from dotenv import load_dotenv, find_dotenv
-from flask import render_template, request, redirect, url_for, flash, Flask, Blueprint, jsonify
+from flask import (
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    Flask,
+    Blueprint,
+    jsonify,
+)
 from flask_login import (
     LoginManager,
     login_user,
@@ -37,7 +46,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['TESTING'] = False
+app.config["TESTING"] = False
 
 # Initialize the database
 db = SQLAlchemy(app)
@@ -85,11 +94,14 @@ class Favlist(db.Model):
     def __repr__(self):
         return f"<Favlist {self.username, self.movie_id}>"
 
-#Defining output format
+
+# Defining output format
 class ReviewSchema(ma.Schema):
     """To Define output format for Review"""
+
     class Meta:
         """Format"""
+
         fields = ("id", "username", "movie_id", "comment", "rating", "title")
 
 
@@ -113,6 +125,7 @@ def logout():
     """Logs out user"""
     logout_user()
     return redirect(url_for("login"))
+
 
 # route for serving React page
 @app.route("/")
@@ -141,70 +154,80 @@ def index():
         link=wiki_url,
         reviews=reviews,
         trailer=trailer,
-        )
+    )
 
 
-@bp.route('/my_reviews')
+@bp.route("/my_reviews")
 def my_reviews():
     """test"""
     return render_template("index.html")
 
-@bp.route("/del_rev", methods=['POST'])
+
+@bp.route("/del_rev", methods=["POST"])
 def del_rev():
     """Deleting List of User Reviews"""
-    del_list = request.get_json(['delReviews'])
-    print(del_list['delReviews']) #list of rev id to delete
+    del_list = request.get_json(["delReviews"])
+    print(del_list["delReviews"])  # list of rev id to delete
 
-    deleted = delete(Review).where(Review.id.in_(del_list['delReviews']))
+    deleted = delete(Review).where(Review.id.in_(del_list["delReviews"]))
 
     db.session.execute(deleted)
     db.session.commit()
     return jsonify(del_list)
 
-@bp.route("/upt_rating", methods=['POST'])
+
+@bp.route("/upt_rating", methods=["POST"])
 def upt_rating():
     """Updating of User Ratings"""
-    rating_changes = request.get_json(['ratings'])
-    #print(rating_changes['ratings']) #dictionary of rev id and ratings to update
+    rating_changes = request.get_json(["ratings"])
+    # print(rating_changes['ratings']) #dictionary of rev id and ratings to update
 
-    for change in rating_changes['ratings']:
+    for change in rating_changes["ratings"]:
         # pylint: disable=line-too-long
-        updated = update(Review).where(Review.id==change['revId']).values(rating=int(change['newRating']))
+        updated = (
+            update(Review)
+            .where(Review.id == change["revId"])
+            .values(rating=int(change["newRating"]))
+        )
         db.session.execute(updated)
         db.session.commit()
 
     return jsonify(rating_changes)
 
-@bp.route("/upt_comment", methods=['POST'])
+
+@bp.route("/upt_comment", methods=["POST"])
 def upt_comment():
     """Updating of User Comments"""
-    changed_comments = request.get_json(['comments'])
-    #print(changed_comments['comments']) #dictionary of rev id and comments to update
+    changed_comments = request.get_json(["comments"])
+    # print(changed_comments['comments']) #dictionary of rev id and comments to update
 
-    for change in changed_comments['comments']:
+    for change in changed_comments["comments"]:
         # pylint: disable=line-too-long
-        updated = update(Review).where(Review.id==change['revId']).values(comment=change['newComment'])
+        updated = (
+            update(Review)
+            .where(Review.id == change["revId"])
+            .values(comment=change["newComment"])
+        )
         db.session.execute(updated)
         db.session.commit()
 
-
     return jsonify(changed_comments)
 
-@bp.route('/load_info')
+
+@bp.route("/load_info")
 def load_info():
     """Sending info to react side"""
     username = current_user.username
     user_reviews = Review.query.filter_by(username=username).all()
     # print(user_reviews)
     reviews_schema = ReviewSchema(many=True)
-    output = reviews_schema.dump(user_reviews) #converts to a serializeable obj
-    data = {
-        'username': username,
-        'reviews': output
-        }
+    output = reviews_schema.dump(user_reviews)  # converts to a serializeable obj
+    data = {"username": username, "reviews": output}
     return jsonify(data)
 
+
 app.register_blueprint(bp)
+
 
 @app.route("/actor_info", methods=["GET", "POST"])
 @login_required
@@ -293,6 +316,7 @@ def login():
 
     return render_template("login.html")
 
+
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
     """Driver Code for Sign Up Page"""
@@ -313,6 +337,7 @@ def sign_up():
         return redirect(url_for("login"))
     return render_template("sign_up.html")
 
+
 @app.route("/handle_form", methods=["GET", "POST"])
 def handle_form():
     """Driver Code for handling main form"""
@@ -325,7 +350,11 @@ def handle_form():
         title, tag, genres_list, pic = get_movie_info(str(movie_id))
 
         review = Review(
-            movie_id=movie_id, title=title, username=user, comment=comment, rating=rating
+            movie_id=movie_id,
+            title=title,
+            username=user,
+            comment=comment,
+            rating=rating,
         )
         db.session.add(review)
         db.session.commit()
@@ -350,6 +379,7 @@ def handle_form():
             trailer=trailer,
         )
     return render_template("main.html")
+
 
 @app.route("/add_fav", methods=["POST", "GET"])
 def add_fav():
