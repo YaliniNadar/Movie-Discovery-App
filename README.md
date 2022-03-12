@@ -112,9 +112,13 @@ Created a shortcut in package.json to skip running `npm run build` after every c
 I also gave the user the option to edit the comments themselves apart from the rating.
 
 
-### Pylint Note\*
+### Linting Note\*
 
 For certain pylint errors (especially the errors for the database models), I handled them in my settings.json file inside my .vscode folder. So they don't show up on my end but may show up on your end when you run `pylint *.py`.
+
+Here is the screenshot of my linting results:
+
+![Screenshot!](Milestone3.png)
 
 ## Author
 
