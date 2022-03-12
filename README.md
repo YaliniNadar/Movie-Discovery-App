@@ -56,9 +56,9 @@ Newest addition is the ability to make changes to user's comments on the client 
   pip install psycopg2-binary
   pip install flask-marshmallow
   pip install marshmallow-sqlalchemy
-  npm install
   pip install Flask-Session
   sudo apt install postgresql
+  sudo apt install npm
 ```
 
 3. Create a .env file to store the following as environment variables:
