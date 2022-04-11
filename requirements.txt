@@ -18,3 +18,4 @@ requests==2.22.0
 SQLAlchemy==1.4.31
 urllib3==1.25.8
 Werkzeug==2.0.2
+gunicorn
