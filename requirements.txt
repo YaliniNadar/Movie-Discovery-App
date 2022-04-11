@@ -1,10 +1,4 @@
 black==22.1.0
-click==8.0.3
-distlib==0.3.0
-distro==1.4.0
-distro-info===0.23ubuntu1
-entrypoints==0.3
-filelock==3.0.12
 Flask==2.0.2
 Flask-Cors==3.0.10
 Flask-Login==0.3.2
@@ -16,7 +10,6 @@ Jinja2==3.0.3
 marshmallow==3.14.1
 marshmallow-sqlalchemy==0.27.0
 pipenv==11.9.0
-platformdirs==2.4.1
 psycopg2-binary==2.9.3
 pylint-flask==0.6
 pylint-flask-sqlalchemy==0.2.0
