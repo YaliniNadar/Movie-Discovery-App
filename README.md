@@ -15,7 +15,7 @@ Newest addition is the ability to make changes to user's comments on the client 
 ### Heroku URL
 - Milestone 3 Link:  https://movie--discovery--app.herokuapp.com/
 - Milestone 2 Link: https://movie-explorer123.herokuapp.com/
-- Mileestone 1 Link: https://quiet-reaches-72609.herokuapp.com/
+- Milestone 1 Link: https://quiet-reaches-72609.herokuapp.com/
 
 ### App Displays:
 
