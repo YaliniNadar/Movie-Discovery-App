@@ -41,6 +41,11 @@ Newest addition is the ability to make changes to user's comments on the client 
 - Java Script
   - React for reactive components (My Reviews Page)
 
+## Overview
+![Screenshot!](media/HomePage.jpeg)
+![Screenshot!](media/FavsPage.jpeg)
+![Screenshot!](media/ReviewsPage.jpeg)
+
 ## Installation
 
 1. Clone project from git hub
